@@ -158,6 +158,7 @@ Generate a blue noise stippling pattern from the prepared image. This creates a 
 #| message: false
 #| warning: false
 
+import matplotlib.pyplot as plt
 from step2_create_stipple import create_stipple
 
 # If you run this cell alone (e.g. in the notebook preview), Step 1 may not have run yet.
