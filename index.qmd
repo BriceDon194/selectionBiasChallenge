@@ -135,7 +135,7 @@ from step1_prepare_image import prepare_image
 
 # Load and prepare the image
 # CHANGE THIS to use your own image!
-img_path = 'fleischhacker.jpg'  # Example image - replace with your own image
+img_path = r"C:\Users\brice\Pictures\Camera Roll\Rfb5353f25c00d9582243e0da7af0159c.png"  # Example image - replace with your own image
 gray_image = prepare_image(img_path, max_size=512)
 
 # Display the prepared image
@@ -159,6 +159,14 @@ Generate a blue noise stippling pattern from the prepared image. This creates a 
 #| warning: false
 
 from step2_create_stipple import create_stipple
+
+# If you run this cell alone (e.g. in the notebook preview), Step 1 may not have run yet.
+if "gray_image" not in globals():
+    from step1_prepare_image import prepare_image
+
+    if "img_path" not in globals():
+        img_path = r"C:\Users\brice\Pictures\Camera Roll\Rfb5353f25c00d9582243e0da7af0159c.png"
+    gray_image = prepare_image(img_path, max_size=512)
 
 # Create stippled image
 stipple_pattern, samples = create_stipple(
@@ -205,6 +213,14 @@ Create a tonal analysis by dividing the image into a grid and computing average 
 
 from step3_create_tonal import create_tonal
 import matplotlib.pyplot as plt
+
+# Same as Step 2: allow running this cell without re-running Step 1 first.
+if "gray_image" not in globals():
+    from step1_prepare_image import prepare_image
+
+    if "img_path" not in globals():
+        img_path = r"C:\Users\brice\Pictures\Camera Roll\Rfb5353f25c00d9582243e0da7af0159c.png"
+    gray_image = prepare_image(img_path, max_size=512)
 
 # Create tonal analysis with a 16×12 grid
 grid_rows = 16
