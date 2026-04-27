@@ -1,0 +1,9 @@
+# Python packages for Quarto ({python}) cells and image workflow.
+# Install into your project venv:
+#   .venv\Scripts\python.exe -m pip install -r requirements.txt
+
+jupyter>=1.0
+matplotlib>=3.8
+numpy>=2,<3
+pillow>=10
+pyyaml>=6

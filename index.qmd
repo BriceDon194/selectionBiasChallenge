@@ -432,22 +432,63 @@ plt.show()
 
 ```{python}
 #| label: create-final-meme
+#| fig-cap: "Statistics meme demonstrating selection bias"
 #| echo: false
-#| eval: false
 
-# UNCOMMENT AND USE THIS ONCE YOU'VE WRITTEN create_meme.py:
-# from create_meme import create_statistics_meme
-# 
-# # Create the final meme
-# create_statistics_meme(
-#     original_img=gray_image,
-#     stipple_img=stipple_pattern,
-#     block_letter_img=block_letter,
-#     masked_stipple_img=masked_stipple,
-#     output_path="my_statistics_meme.png",
-#     dpi=150,
-#     background_color="white"  # or "pink", "lightgray", etc.
-# )
+import matplotlib.pyplot as plt
+from create_meme import create_statistics_meme
+from step5_create_masked import create_masked_stipple
+
+if "gray_image" not in globals():
+    from step1_prepare_image import prepare_image
+
+    if "img_path" not in globals():
+        img_path = r"C:\Users\brice\Pictures\Camera Roll\Rfb5353f25c00d9582243e0da7af0159c.png"
+    gray_image = prepare_image(img_path, max_size=512)
+
+if "stipple_pattern" not in globals():
+    from step2_create_stipple import create_stipple
+
+    stipple_pattern, _ = create_stipple(
+        gray_image,
+        percentage=0.08,
+        sigma=0.9,
+        content_bias=0.9,
+        noise_scale_factor=0.1,
+        extreme_downweight=0.5,
+        extreme_threshold_low=0.2,
+        extreme_threshold_high=0.8,
+        extreme_sigma=0.1,
+    )
+
+if "block_letter" not in globals():
+    from step4_create_block_letter import create_block_letter_s
+
+    h0, w0 = gray_image.shape
+    block_letter = create_block_letter_s(h0, w0, letter="S", font_size_ratio=0.9)
+
+if "masked_stipple" not in globals():
+    masked_stipple = create_masked_stipple(
+        stipple_pattern,
+        block_letter,
+        threshold=0.5,
+    )
+
+create_statistics_meme(
+    original_img=gray_image,
+    stipple_img=stipple_pattern,
+    block_letter_img=block_letter,
+    masked_stipple_img=masked_stipple,
+    output_path="my_statistics_meme.png",
+    dpi=150,
+    background_color="white",
+)
+
+fig, ax = plt.subplots(figsize=(14, 4))
+ax.imshow(plt.imread("my_statistics_meme.png"))
+ax.axis("off")
+plt.tight_layout()
+plt.show()
 ```
 
 ## Your Final Submission
@@ -472,23 +513,9 @@ To complete this challenge, you must:
 - The final meme image
 - A brief explanation (1-3 sentences) of how it demonstrates selection bias
 
-### Template for Final Section
+### Final figure
 
-Here's a template for your final section:
-
-```{python}
-#| label: final-meme
-#| echo: false
-#| eval: false
-#| fig-cap: "Statistics meme demonstrating selection bias"
-
-# Your code to create and display the meme goes here
-# (all the steps above, uncommented and working)
-
-# Display the final meme
-# from IPython.display import Image, display
-# display(Image("my_statistics_meme.png"))
-```
+The four-panel meme is generated and displayed in the **Create the Final Statistics Meme** section above (caption: *Statistics meme demonstrating selection bias*).
 
 ### Example Explanation
 
