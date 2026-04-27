@@ -301,24 +301,32 @@ print(f"  - Use mid_tone_center around {tonal_stats['mean']:.2f} to emphasize av
 #| label: step4-block-letter
 #| echo: false
 #| fig-cap: "Block letter S representing selection bias"
-#| eval: false
 
-# UNCOMMENT AND USE THIS ONCE YOU'VE WRITTEN step4_create_block_letter.py:
-# from step4_create_block_letter import create_block_letter_s
-# 
-# # Get image dimensions
-# h, w = gray_image.shape
-# 
-# # Create block letter S
-# block_letter = create_block_letter_s(h, w, letter="S", font_size_ratio=0.9)
-# 
-# # Display the block letter
-# fig, ax = plt.subplots(figsize=(6.5, 5))
-# ax.imshow(block_letter, cmap='gray', vmin=0, vmax=1)
-# ax.axis('off')
-# ax.set_title('Step 4: Selection Bias (Block Letter S)', fontsize=14, fontweight='bold', pad=10)
-# plt.tight_layout()
-# plt.show()
+import matplotlib.pyplot as plt
+from step4_create_block_letter import create_block_letter_s
+
+# If you run this cell alone (e.g. in a notebook), Step 1 may not have run yet.
+if "gray_image" not in globals():
+    from step1_prepare_image import prepare_image
+
+    if "img_path" not in globals():
+        img_path = r"C:\Users\brice\Pictures\Camera Roll\Rfb5353f25c00d9582243e0da7af0159c.png"
+    gray_image = prepare_image(img_path, max_size=512)
+
+h, w = gray_image.shape
+block_letter = create_block_letter_s(h, w, letter="S", font_size_ratio=0.9)
+
+fig, ax = plt.subplots(figsize=(6.5, 5))
+ax.imshow(block_letter, cmap="gray", vmin=0, vmax=1)
+ax.axis("off")
+ax.set_title(
+    "Step 4: Selection Bias (Block Letter S)",
+    fontsize=14,
+    fontweight="bold",
+    pad=10,
+)
+plt.tight_layout()
+plt.show()
 ```
 
 ## Step 5: Create Masked Image ⚠️ **YOUR TASK**
@@ -347,25 +355,55 @@ print(f"  - Use mid_tone_center around {tonal_stats['mean']:.2f} to emphasize av
 #| label: step5-masked
 #| echo: false
 #| fig-cap: "Masked stippled image showing selection bias effect"
-#| eval: false
 
-# UNCOMMENT AND USE THIS ONCE YOU'VE WRITTEN step5_create_masked.py:
-# from step5_create_masked import create_masked_stipple
-# 
-# # Create masked stippled image
-# masked_stipple = create_masked_stipple(
-#     stipple_pattern,
-#     block_letter,
-#     threshold=0.5  # Pixels below 0.5 are considered part of the mask
-# )
-# 
-# # Display the masked image
-# fig, ax = plt.subplots(figsize=(6.5, 5))
-# ax.imshow(masked_stipple, cmap='gray', vmin=0, vmax=1)
-# ax.axis('off')
-# ax.set_title('Step 5: Masked Stippled Image (Estimate)', fontsize=14, fontweight='bold', pad=10)
-# plt.tight_layout()
-# plt.show()
+import matplotlib.pyplot as plt
+from step5_create_masked import create_masked_stipple
+
+if "gray_image" not in globals():
+    from step1_prepare_image import prepare_image
+
+    if "img_path" not in globals():
+        img_path = r"C:\Users\brice\Pictures\Camera Roll\Rfb5353f25c00d9582243e0da7af0159c.png"
+    gray_image = prepare_image(img_path, max_size=512)
+
+if "stipple_pattern" not in globals():
+    from step2_create_stipple import create_stipple
+
+    stipple_pattern, _ = create_stipple(
+        gray_image,
+        percentage=0.08,
+        sigma=0.9,
+        content_bias=0.9,
+        noise_scale_factor=0.1,
+        extreme_downweight=0.5,
+        extreme_threshold_low=0.2,
+        extreme_threshold_high=0.8,
+        extreme_sigma=0.1,
+    )
+
+if "block_letter" not in globals():
+    from step4_create_block_letter import create_block_letter_s
+
+    h, w = gray_image.shape
+    block_letter = create_block_letter_s(h, w, letter="S", font_size_ratio=0.9)
+
+masked_stipple = create_masked_stipple(
+    stipple_pattern,
+    block_letter,
+    threshold=0.5,
+)
+
+fig, ax = plt.subplots(figsize=(6.5, 5))
+ax.imshow(masked_stipple, cmap="gray", vmin=0, vmax=1)
+ax.axis("off")
+ax.set_title(
+    "Step 5: Masked Stippled Image (Estimate)",
+    fontsize=14,
+    fontweight="bold",
+    pad=10,
+)
+plt.tight_layout()
+plt.show()
 ```
 
 ## Create the Final Statistics Meme ⚠️ **YOUR TASK**
